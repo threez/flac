@@ -4,7 +4,6 @@ import (
 	"context"
 	"io"
 	"os"
-	"os/exec"
 )
 
 // Cmd is the command line executable (can be an absolute path)
@@ -56,7 +55,7 @@ func NewEncoder(r io.Reader) (io.Reader, error) {
 func newCmdPipe(ctx context.Context, command string, args []string, r io.Reader) (io.Reader, error) {
 	// pipe for the output
 	rp, wp := io.Pipe()
-	cmd := exec.CommandContext(ctx, command, args...)
+	cmd := Command(ctx, command, args)
 	stdin, err := cmd.StdinPipe()
 	if err != nil {
 		return nil, err
